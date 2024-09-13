@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import '../styles/style.scss';
+import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
   title: "Coin Market App",
@@ -14,9 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <StoreProvider>
+        <body>
+          {children}
+        </body>
+      </StoreProvider>
     </html>
   );
 }

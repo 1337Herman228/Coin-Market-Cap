@@ -1,6 +1,7 @@
+import MainPage from "@/pages/main-page/MainPage";
 
 export default function Home() {
   return (
-    <div>123123213</div>
+    <MainPage />
   );
 }

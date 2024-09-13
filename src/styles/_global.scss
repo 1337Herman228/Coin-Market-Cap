@@ -69,3 +69,15 @@ hr{
 .display-none{
     display:none !important;
 }
+
+.grow-symbol{
+    &::before{
+        content: url('/svg/arrow-up.svg');
+    }
+}
+
+.down-symbol{
+    &::before{
+        content: url('/svg/arrow-down.svg');
+    }
+}
