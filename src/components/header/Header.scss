@@ -1,0 +1,35 @@
+
+
+.header{
+    height: 56px;
+    padding:8px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--c-color-gray-200);
+
+
+    .popular-coins{
+        display: flex;
+        gap: 20px;
+
+        &__item{
+            display: flex;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: 700;
+
+            &-name{
+               color: var(--c-color-gray-600);
+            }
+
+            &-price{
+                color: var(--c-color-blue-500);
+            }
+
+            &-percent{
+
+            }
+        }
+    }
+
+}

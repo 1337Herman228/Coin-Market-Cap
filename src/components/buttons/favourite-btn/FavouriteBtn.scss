@@ -1,0 +1,33 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/media' as *;
+
+.favorites-btn{
+    @include reset-button;
+    cursor: pointer;
+    transition-duration: var(--transition-duration);
+    padding: 4px;
+
+    @include hover{
+        path{
+            fill: var(--c-color-beige-600);
+        }
+    }
+
+    &__svg{
+        path{
+            fill: var(--color-neutral-6);
+        }
+    }
+
+    &.active{
+        path{
+            fill: var(--c-color-beige-600);
+        }
+
+        @include hover{
+            path{
+                opacity: 0.6;
+            }
+        }
+    }
+}

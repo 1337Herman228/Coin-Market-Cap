@@ -1,0 +1,16 @@
+@use '../../styles/variables' as *;
+
+.table-down-cell{
+    color: var(--down-color);
+
+    &__text{
+        padding-left: 3px;
+    }
+}
+
+.table-grow-cell{
+    color: var(--up-color);
+    &__text{
+        padding-left: 3px;
+    }
+}

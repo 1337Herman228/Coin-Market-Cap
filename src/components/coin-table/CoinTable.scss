@@ -19,47 +19,4 @@
         cursor: pointer;
     }
 
-    .favorites-btn{
-        @include reset-button;
-        cursor: pointer;
-        transition-duration: var(--transition-duration);
-        padding: 4px;
-
-        @include hover{
-            path{
-                // user-select: none;
-                fill: var(--c-color-beige-600);
-            }
-        }
-
-        &__svg{
-            // user-select: none;
-            path{
-                fill: var(--color-neutral-6);
-            }
-        }
-
-        &.active{
-            path{
-                // user-select: none;
-                fill: var(--c-color-beige-600);
-            }
-        }
-    }
-
-    .table-down-cell{
-        color: var(--down-color);
-
-        &__text{
-            padding-left: 3px;
-        }
-    }
-
-    .table-grow-cell{
-        color: var(--up-color);
-        &__text{
-            padding-left: 3px;
-        }
-    }
-
 }

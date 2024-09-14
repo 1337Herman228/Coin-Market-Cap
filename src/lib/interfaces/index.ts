@@ -10,8 +10,30 @@ export interface ICoinResponse {
 
 
 export interface IGetCoinsParams {
-    limit: number;
-    offset: number;
+    limit?: number;
+    offset?: number;
+}
+
+export interface IGetFavoriteCoinsParams {
+    key: string;
+    value: string;
+}
+
+export interface ICoinHistory {
+    data: ICoinHistoryPoint[],
+    timestamp: number,
+}
+
+export interface ICoinHistoryParams {
+    id: string; //bitcoin
+    interval: string; //m1, m5, m15, m30, h1, h2, h6, h12, d1
+    start?: number;
+    end?: number;
+}
+
+export interface ICoinHistoryPoint {
+    priceUsd: string, //"6379.3997635993342453"
+    time: number, //1530403200000
 }
 
 export interface ICoin {

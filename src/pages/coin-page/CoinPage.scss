@@ -1,0 +1,149 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/media' as *;
+@use '../../styles/variables' as *;
+
+.coin-section{
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .coin{
+        display: flex;
+        flex-direction: column;
+        width: 360px;
+        padding: 24px;
+
+        &__back{
+            margin-bottom: 10px;
+            font-weight: 700;
+            
+            &-link{
+                transition-duration:  var(--transition-duration);
+                position: relative;
+                padding-bottom: 3px;
+
+                &::after{
+                    content: '';
+                    position: absolute;
+                    transition-duration: var(--transition-duration);
+                    background-color: currentColor;
+                    left: 0;
+                    bottom: 0;
+                    width: 50%;
+                    height: 1.5px;
+                }
+
+                @include hover{
+                    &::after{
+                        width: 100%;
+                    }
+                }
+            } 
+        }
+
+        
+
+        &__header{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+
+            &-img{
+
+            }
+
+            &-name{
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            &-symbol{
+                padding-top: 5px;
+                font-size: 12px;
+                color: var(--c-color-gray-600);
+            }
+
+            &-rank{
+                padding-top: 2px;
+                font-size: 14px;
+                color: var(--c-color-purple-500);
+            }
+        }
+
+        &__price{
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            &-value{
+                font-size: 40px;
+                font-weight: 700;
+            }
+
+            &-change{
+                font-weight: 700;
+                font-size: 14px;
+            }
+        }
+
+
+        &__info{
+            padding-top: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            &-row{
+                display:  flex;
+                justify-content: space-between;
+
+                &-key{
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: var(--c-color-gray-600);
+                }
+
+                &-value{
+                    font-size: 12px;
+                    font-weight: 700;
+                }
+
+            }
+        }
+
+    }
+
+    .chart-container{
+
+        .chart-dashboard{
+            display: flex;
+            justify-content: end;
+            gap: 2px;
+
+            &__btn{
+                @include reset-button;
+                border-radius: 2px;
+                padding: 3px 10px;
+                border: 1px solid rgba(0, 0, 0, 0.356);
+                font-weight: 600;
+                font-size: 10px;
+                text-transform: uppercase;
+                cursor: pointer;
+
+                @include hover{
+                    background-color: var(--c-color-gray-200);
+                }
+
+                &.active{
+                    background-color: var(--c-color-gray-300);
+                }
+            }
+        }
+
+        .chart{
+
+        }
+    }
+}

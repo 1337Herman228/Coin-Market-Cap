@@ -1,7 +1,13 @@
-import { ICoinResponse, ICoinsResponse, IGetCoinByIdQueryParams, IGetCoinsParams } from '@/lib/interfaces'
+import { ICoinHistory, ICoinHistoryParams, ICoinResponse, ICoinsResponse, IGetCoinByIdQueryParams, IGetCoinsParams } from '@/lib/interfaces'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { setCoins, setSelectedCoin } from '../slices/coincapSlice'
+import { setCoinHistory, setCoins, setSelectedCoin } from '../slices/coincapSlice'
 
+const API_KEY = '8dd7ca09-d8d9-4686-a941-83ac8788c05d'
+
+const headers = {
+    'Accept-Encoding': 'gzip',
+    'Authorization':'Bearer ' + API_KEY
+}
 
 // Define a service using a base URL and expected endpoints
 export const coinsApi = createApi({
@@ -12,9 +18,7 @@ export const coinsApi = createApi({
     getAllCoins: builder.query<ICoinsResponse, void>({
       query: () => ({
         url:'assets',
-        headers: {
-            'Accept-Encoding': 'gzip',
-        },
+        headers: headers,
       }),
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
           const result = await queryFulfilled
@@ -27,9 +31,7 @@ export const coinsApi = createApi({
     query: (params) => ({
         url:'assets',
         params,
-        headers: {
-            'Accept-Encoding': 'gzip',
-        },
+        headers: headers,
     }),
     async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         const result = await queryFulfilled
@@ -41,9 +43,7 @@ export const coinsApi = createApi({
     getCoinById: builder.query<ICoinResponse, IGetCoinByIdQueryParams>({
         query: ({id}) => ({
             url:`assets/${id}`,
-            headers: {
-                'Accept-Encoding': 'gzip',
-            },
+            headers: headers,
         }),
         async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
             const result = await queryFulfilled
@@ -52,7 +52,20 @@ export const coinsApi = createApi({
         }
     }),
 
+    getCoinHistory: builder.query<ICoinHistory, ICoinHistoryParams>({
+        query: (params) => ({
+            url:`assets/${params.id}/history`,
+            params,
+            headers: headers,
+        }),
+        async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+            const result = await queryFulfilled
+            const data = result.data
+            dispatch(setCoinHistory(data))
+        }
+    }),
+
   }),
 })
 
-export const { useGetCoinsQuery, useGetCoinByIdQuery } = coinsApi
+export const { useGetCoinsQuery, useGetCoinByIdQuery, useGetCoinHistoryQuery } = coinsApi

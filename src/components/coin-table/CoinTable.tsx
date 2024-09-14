@@ -4,17 +4,22 @@ import './CoinTable.scss';
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import type { InputRef, TableColumnsType, TableColumnType } from 'antd';
-import { Button, ConfigProvider, Input, Row, Space, Table } from 'antd';
+import { Button, ConfigProvider, Input, Space, Spin, Table } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
 import { useAppSelector } from '@/lib/redux/store';
-import { useGetCoinByIdQuery, useGetCoinsQuery } from '@/lib/redux/store/services/coinsApi';
+import { useGetCoinsQuery } from '@/lib/redux/store/services/coinsApi';
 
 import { ICoinsResponse } from '@/lib/interfaces';
 import useFormatNumber from '@/lib/hooks/useFormatNumber';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { setCoins } from '@/lib/redux/store/slices/coincapSlice';
+import { setCoins, setFavouriteCoins } from '@/lib/redux/store/slices/coincapSlice';
 import useLocalStorage from '@/lib/hooks/useLocalStorage';
+import { useRouter } from 'next/navigation';
+import FavouriteBtn from '../buttons/favourite-btn/FavouriteBtn';
+import StyledError from '../error/StyledError';
+import { LoadingOutlined } from '@ant-design/icons';
+import PercentModify from '../percent-modify/PercentModify';
 
 interface DataType {
 
@@ -32,14 +37,18 @@ interface DataType {
   
   type DataIndex = keyof DataType;
 
-  // const _currentPage = 1;
-
 const CoinTable = () => {
   
+    const router = useRouter();
+
     const {addToLocalStorage, removeFromLocalStorage, getFromLocalStorage } = useLocalStorage();
     const dispatch = useAppDispatch()
 
-    const coins = useAppSelector((state) => state.coincap.coins)
+    const {coins, favouriteCoins} = useAppSelector((state) => state.coincap)
+    useEffect(() => {
+      dispatch(setFavouriteCoins(getFromLocalStorage('selected-coins') || []))
+    }, []);
+    // console.log('favouriteCoins',favouriteCoins)
 
     const {formatNumber, formatLargeNumber} = useFormatNumber()
 
@@ -48,6 +57,10 @@ const CoinTable = () => {
     const totalItems = 100;
 
     const {data, error, isLoading } = useGetCoinsQuery({limit:pageSize, offset:(currentPage - 1) * pageSize})
+
+    useEffect(() => {
+      dispatch(setCoins(coins || []))
+    }, []);
 
     // console.log("Current Page:", currentPage);
     // console.log("Offset:", (currentPage - 1) * pageSize);
@@ -189,19 +202,7 @@ const CoinTable = () => {
         key: 'isAdded',
         width: '0.1%',
         render: (text, record) => 
-          // star-empty.svg
-        <button className={`favorites-btn ${selectedCoins.includes(record.key) && 'active'}`}>
-          {selectedCoins.includes(record.key) ? 
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6.5 10.4479L10.517 13L9.451 8.19L13 4.95368L8.3265 4.53632L6.5 0L4.6735 4.53632L0 4.95368L3.549 8.19L2.483 13L6.5 10.4479Z" fill="black" fill-opacity="0.87"/>
-          </svg>
-          :
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 4.95368L8.3265 4.52947L6.5 0L4.6735 4.53632L0 4.95368L3.549 8.19L2.483 13L6.5 10.4479L10.517 13L9.4575 8.19L13 4.95368ZM6.5 9.16842L4.056 10.7216L4.706 7.79316L2.548 5.82263L5.395 5.56263L6.5 2.80526L7.6115 5.56947L10.4585 5.82947L8.3005 7.8L8.9505 10.7284L6.5 9.16842Z" fill="black" fill-opacity="0.87"/>
-          </svg>
-
-        }
-        </button>
+          <FavouriteBtn isActive={selectedCoins.includes(record.key)} />
       },
       {
         title: '#',
@@ -270,44 +271,48 @@ const CoinTable = () => {
         ...getColumnSearchProps('changePercent24Hr'),
         render: (text, record) => 
         <>
-          {Number(record.changePercent24Hr) < 0 ? 
-          <span className='table-down-cell'>
-            <span className='down-symbol'/>
-            <span className='table-down-cell__text'>{(formatNumber(record.changePercent24Hr, 2)+"%").replace("-","")}</span>
-          </span>
-          :
-          <span className='table-grow-cell'>
-             <span className='grow-symbol'/>
-             <span className='table-grow-cell__text'>{formatNumber(record.changePercent24Hr, 2)+"%"}</span>
-          </span>
-          }
+         <PercentModify value={record.changePercent24Hr}/>
         </>
       },
 
     ];
 
+
     const onTableClick = (event:any, record:DataType) => {
       console.log(event.target.tagName)
       if (event.target.tagName === 'svg' || event.target.tagName === 'path' || event.target.tagName === 'button') {
       
-        const selectedCoins = getFromLocalStorage('selected-coins') || []
-
-        if (selectedCoins.includes(record.key)) {
+        if (favouriteCoins.includes(record.key)) {
           removeFromLocalStorage('selected-coins', record.key)
         } else {
           addToLocalStorage('selected-coins', record.key)
         }
+        const selectedCoins = getFromLocalStorage('selected-coins') || []
+        dispatch(setFavouriteCoins(selectedCoins))
 
       } else {
-        // Click was on the table row
+        router.push(`/currencies/${record.key}`)
       }
     }
 
     if (error) {
-      return <div>Error loading data</div>;
+      return (
+        <div className='error'>
+          <StyledError 
+            message='Error loading data' 
+            description='Please try again later'
+          />
+        </div>
+      )
     }
 
-    if(isLoading) return <div>Loading...</div>
+    if(isLoading) return (
+      <Spin 
+        indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} 
+        fullscreen={true} 
+        size="large" 
+      />
+    )
 
     return (
       <div className='table-wrapper'>
