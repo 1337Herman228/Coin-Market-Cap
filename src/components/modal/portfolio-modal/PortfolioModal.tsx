@@ -6,8 +6,6 @@ import { useAppDispatch } from "@/lib/hooks/reduxHooks";
 import { setFavouriteCoins } from "@/lib/redux/store/slices/coincapSlice";
 import useFormatNumber from "@/lib/hooks/useFormatNumber";
 import { ILocalStorageCoinKey } from "@/lib/interfaces";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import useCalculateProfit from "@/lib/hooks/useCalculateProfit";
 import PortfolioProfit from "@/components/portfolio-profit/PortfolioProfit";
 
@@ -24,8 +22,7 @@ const PortfolioModal = ({
 }: PortfolioModalProps) => {
     const dispatch = useAppDispatch();
 
-    const { addToLocalStorage, removeFromLocalStorage, getFromLocalStorage } =
-        useLocalStorage();
+    const { removeFromLocalStorage, getFromLocalStorage } = useLocalStorage();
     const { allCoins, favouriteCoins } = useAppSelector(
         (state) => state.coincap
     );
@@ -46,8 +43,6 @@ const PortfolioModal = ({
             year: "numeric",
             month: "numeric",
             day: "numeric",
-            // hour: '2-digit',
-            // minute: '2-digit',
         });
     };
 
@@ -76,7 +71,11 @@ const PortfolioModal = ({
                     <h1 className="title">Your coins</h1>
 
                     <div className="income">
-                        <span>Total: </span> <PortfolioProfit />
+                        <span>Total: </span>{" "}
+                        <PortfolioProfit
+                            allCoins={allCoins}
+                            favouriteCoins={favouriteCoins}
+                        />
                     </div>
 
                     <div className="col-names">

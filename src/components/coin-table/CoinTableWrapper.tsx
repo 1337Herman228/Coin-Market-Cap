@@ -4,10 +4,7 @@ import "./CoinTable.scss";
 import React, { useCallback, useEffect, useState } from "react";
 import { Spin } from "antd";
 import { useAppSelector } from "@/lib/redux/store";
-import {
-    useGetAllCoinsQuery,
-    useGetCoinsQuery,
-} from "@/lib/redux/store/services/coinsApi";
+import { useGetCoinsQuery } from "@/lib/redux/store/services/coinsApi";
 
 import { DataType, ICoinsResponse } from "@/lib/interfaces";
 import { useAppDispatch } from "@/lib/hooks/reduxHooks";
@@ -15,7 +12,6 @@ import { setCoins } from "@/lib/redux/store/slices/coincapSlice";
 import StyledError from "../error/StyledError";
 import { LoadingOutlined } from "@ant-design/icons";
 import CoinTable from "./CoinTable";
-import TableColumns from "./TableColumns";
 
 const totalItems = 100;
 
@@ -23,8 +19,6 @@ const CoinTableWrapper = () => {
     const dispatch = useAppDispatch();
 
     const { coins } = useAppSelector((state) => state.coincap);
-
-    const { columns } = TableColumns();
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState(25);
@@ -84,11 +78,8 @@ const CoinTableWrapper = () => {
         setCurrentPage(page);
     };
 
-    console.log("render CoinTableWrapper");
-
     return (
         <CoinTable
-            columns={columns}
             isLoading={isLoading}
             tableData={makeTableData(coins)}
             currentPage={currentPage}
