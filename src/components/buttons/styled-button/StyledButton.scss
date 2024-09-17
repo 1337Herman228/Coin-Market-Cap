@@ -1,0 +1,21 @@
+@use '../../../styles/media' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.styled-button{
+    @include reset-button;
+    border-radius: 2px;
+    padding: 3px 10px;
+    font-weight: 600;
+    font-size: 10px;
+    // text-transform: uppercase;
+    cursor: pointer;
+
+    @include hover{
+        background-color: var(--c-color-gray-200);
+    }
+
+    &.active{
+        background-color: var(--color-neutral-2-5);
+    }
+}

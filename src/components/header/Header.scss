@@ -1,22 +1,41 @@
-
+@use '../../styles/media' as *;
+@use '../../styles/media' as *;
+@use '../../styles/media' as *;
 
 .header{
     height: 56px;
     padding:8px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--c-color-gray-200);
 
+    @include tablet{
+        height: 70px;
+    }
 
     .popular-coins{
         display: flex;
         gap: 20px;
+
+        @include tablet{
+            gap: 10px;
+        }
 
         &__item{
             display: flex;
             gap: 7px;
             font-size: 12px;
             font-weight: 700;
+
+            @include tablet{
+                gap: 1px;
+            }
+
+            @include tablet{
+                font-size: 10px;
+                flex-direction: column;
+            }
 
             &-name{
                color: var(--c-color-gray-600);
@@ -28,6 +47,32 @@
 
             &-percent{
 
+            }
+            
+        }
+    }
+
+    .portfolio{
+        display: flex;
+        gap: 10px;
+
+        &__btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+
+
+            &-icon{
+                path{
+                    fill: var(--c-color-text-secondary);
+                }
+            }
+
+            &-text{
+                font-size: 12px;
+                font-weight: 600;
+                color:var(--c-color-text-secondary)
             }
         }
     }

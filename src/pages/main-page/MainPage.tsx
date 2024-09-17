@@ -1,12 +1,12 @@
 'use client'
 
-import CoinTable from '@/components/coin-table/CoinTable';
+import CoinTableWrapper from '@/components/coin-table/CoinTableWrapper';
 import './MainPage.scss';
 
 const MainPage = () => {
     return (
         <div className='container'>
-            <CoinTable />
+            <CoinTableWrapper />
         </div>
     );
 };

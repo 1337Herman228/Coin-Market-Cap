@@ -1,0 +1,62 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/media' as *;
+@use '../../../styles/variables' as *;
+
+
+._portfolio-modal{
+    
+
+    .title{
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .income{
+        display: flex;
+        gap: 5px;
+        align-items: end;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .col-names{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) 50px repeat(2, 1fr) 35px;
+        font-size: 11px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .coins-list{
+        overflow-y: auto;
+        max-height: 60vh;
+
+        .coin-item{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr) 50px repeat(2, 1fr) 35px;
+            gap: 5px;
+            font-size: 9px;
+            font-weight: 700;
+            margin-top: 10px;
+
+            &__cell{
+
+            }
+
+            &--delete{
+                justify-self: center;
+
+                button{
+                    @include reset-button;
+                    cursor: pointer;
+
+                    @include hover{
+                        path{
+                            fill: var(--c-color-negative);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

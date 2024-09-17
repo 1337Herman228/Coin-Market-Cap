@@ -54,3 +54,24 @@ export interface ICoin {
 export interface IGetCoinByIdQueryParams {
     id: string,
 }
+
+export interface DataType {
+
+    key: string;
+    rank: string;
+    symbol: string; //"BTC"
+    logo: string; // "https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}}@2x.png"
+    name: string; //bitcoin
+    priceUsd: string;
+    marketCapUsd: string;
+    changePercent24Hr: string;
+
+  }
+
+  export  interface ILocalStorageCoinKey {
+    id: string
+    coinId: string
+    priceUsd: number
+    quantity: number
+    dateWhenAdded: number
+}

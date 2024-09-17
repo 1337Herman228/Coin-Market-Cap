@@ -4,7 +4,9 @@
 .favorites-btn{
     @include reset-button;
     cursor: pointer;
-    transition-duration: var(--transition-duration);
+    display: grid;
+    place-items: center;
+    transition-duration: 0.3s;
     padding: 4px;
 
     @include hover{
@@ -16,18 +18,6 @@
     &__svg{
         path{
             fill: var(--color-neutral-6);
-        }
-    }
-
-    &.active{
-        path{
-            fill: var(--c-color-beige-600);
-        }
-
-        @include hover{
-            path{
-                opacity: 0.6;
-            }
         }
     }
 }

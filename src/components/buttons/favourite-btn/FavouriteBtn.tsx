@@ -3,24 +3,15 @@ import './FavouriteBtn.scss';
 import React from 'react';
 
 interface FavouriteBtnProps {
-    isActive: boolean;
     onClick?: () => void;
 }
 
-// selectedCoins.includes(record.key)
-
-const FavouriteBtn = ({isActive, onClick}: FavouriteBtnProps) => {
+const FavouriteBtn = ({onClick}: FavouriteBtnProps) => {
     return (
-        <button onClick={onClick} className={`favorites-btn ${isActive && 'active'}`}>
-          {isActive ? 
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6.5 10.4479L10.517 13L9.451 8.19L13 4.95368L8.3265 4.53632L6.5 0L4.6735 4.53632L0 4.95368L3.549 8.19L2.483 13L6.5 10.4479Z" fill="black" fill-opacity="0.87"/>
+        <button onClick={onClick} className={`favorites-btn`}>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.0009 18C4.0321 17.9945 0.00545668 13.9683 0 9.00001V8.82001C0.0989482 3.87409 4.17154 -0.0648231 9.11851 0.000808395C14.0655 0.0664399 18.0321 4.11201 17.9998 9.05881C17.9675 14.0056 13.9483 17.999 9.0009 18ZM4.50045 8.10001V9.90001H8.10081V13.5H9.90099V9.90001H13.5013V8.10001H9.90099V4.50001H8.10081V8.10001H4.50045Z" fill="black" fill-opacity="0.88"/>
           </svg>
-          :
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 4.95368L8.3265 4.52947L6.5 0L4.6735 4.53632L0 4.95368L3.549 8.19L2.483 13L6.5 10.4479L10.517 13L9.4575 8.19L13 4.95368ZM6.5 9.16842L4.056 10.7216L4.706 7.79316L2.548 5.82263L5.395 5.56263L6.5 2.80526L7.6115 5.56947L10.4585 5.82947L8.3005 7.8L8.9505 10.7284L6.5 9.16842Z" fill="black" fill-opacity="0.87"/>
-          </svg>
-        }
         </button>
     );
 };

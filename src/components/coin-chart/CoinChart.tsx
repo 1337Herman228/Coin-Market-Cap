@@ -1,5 +1,6 @@
 import { LineChart} from '@mui/x-charts/LineChart';
 import { memo } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
   interface CoinChartProps {
     dataset: any;
@@ -19,6 +20,8 @@ const CoinChart = memo( (
   }
   :
   CoinChartProps) => {
+
+    const isMobileScreen = useMediaQuery({ query: '(max-width: 768px)' });
 
     const formatTime = (timeType:string)=>{
       switch (timeType) {
@@ -93,7 +96,7 @@ const CoinChart = memo( (
           valueFormatter: (v) => (v === null ? '' : currencyFormatter(v)),
         }
       ]}
-      width={650}
+      width={isMobileScreen ? 400 : 650}
       height={400}
       // margin={{ left: 70 }}
     />

@@ -6,16 +6,16 @@ import React, { useEffect, useState } from 'react';
 import { ICoinHistory } from '@/lib/interfaces';
 import CoinChart from '@/components/coin-chart/CoinChart';
 import useLocalStorage from '@/lib/hooks/useLocalStorage';
-import { useAppSelector } from '@/lib/redux/store';
 import { useAppDispatch } from '@/lib/hooks/reduxHooks';
 import { setFavouriteCoins } from '@/lib/redux/store/slices/coincapSlice';
 import FavouriteBtn from '@/components/buttons/favourite-btn/FavouriteBtn';
 import Link from 'next/link';
-import useFormatNumber from '@/lib/hooks/useFormatNumber';
 import StyledError from '@/components/error/StyledError';
 import { Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import PercentModify from '@/components/percent-modify/PercentModify';
+import StyledButton from '@/components/buttons/styled-button/StyledButton';
+import BuyCoinModal from '@/components/modal/buy-coin-modal/BuyCoinModal';
+import CoinInfo from '@/components/coin-info/CoinInfo';
 
 const h1 = Date.now() - 1000 * 60 * 60
 const h12 = Date.now() - 1000 * 60 * 60 * 12
@@ -27,32 +27,27 @@ const CoinPage = () => {
     const pathname = usePathname();
     const coinId = pathname?.split('/').pop();
 
-    const {formatNumber, formatLargeNumber} = useFormatNumber()
+    const dispatch = useAppDispatch()
+    const {getFromLocalStorage } = useLocalStorage();
 
     const [start, setStart] = useState(d1)
     const [timeType, setTimeType] = useState('d1')
     const [interval, setInterval] = useState('m15')
+    const [isModalOpen, setIsModalOpen] = useState([false]);
 
     const {data: coin, error: coinError, isLoading: coinIsLoading } = useGetCoinByIdQuery({id:coinId || ''})
     const {data, error, isLoading } = useGetCoinHistoryQuery({id:coinId || '', interval:interval, start:  start, end: now})
 
-    const dispatch = useAppDispatch()
-    const {addToLocalStorage, removeFromLocalStorage, getFromLocalStorage } = useLocalStorage();
-    const {favouriteCoins} = useAppSelector((state) => state.coincap)
     useEffect(() => {
       dispatch(setFavouriteCoins(getFromLocalStorage('selected-coins') || []))
     }, []);
 
-    const toggleFavouriteCoin = ()=>{
-        if (favouriteCoins.includes(coin?.data.id || '')) {
-            removeFromLocalStorage('selected-coins', coin?.data.id || '')
-        } else {
-            addToLocalStorage('selected-coins', coin?.data.id || '')
-        }
-        const selectedCoins = getFromLocalStorage('selected-coins') || []
-        dispatch(setFavouriteCoins(selectedCoins))
-    }
-
+    const toggleModal = (idx: number, target: boolean) => {
+        setIsModalOpen((p) => {
+            p[idx] = target;
+            return [...p];
+        });
+    };
 
     const convertData = (data: ICoinHistory) => {
         // Преобразование данных в нужный формат
@@ -85,7 +80,7 @@ const CoinPage = () => {
     }
 
     if(data)
-    console.log('convertData',convertData(data))
+    // console.log('convertData',convertData(data))
 
     if (error) 
     return (
@@ -97,7 +92,7 @@ const CoinPage = () => {
         </div>
       )
   
-      if(isLoading) return (
+      if(isLoading || !data || !coin) return (
         <Spin 
           indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} 
           fullscreen={true} 
@@ -105,7 +100,6 @@ const CoinPage = () => {
         />
       )
   
-    if(data && coinId)
     return (
         <div className='container'>
             <section className='section coin-section'>
@@ -127,56 +121,41 @@ const CoinPage = () => {
                         <span className='coin__header-rank'> (#{coin?.data.rank})</span>
                         
                         <FavouriteBtn 
-                            onClick={toggleFavouriteCoin}
-                            isActive={favouriteCoins.includes(coin?.data.id || '')} 
+                            onClick={()=>toggleModal(2, true)}
                         />
                     </div>
-                    <div className='coin__price'>
-                        <span className='coin__price-value'>
-                            ${formatNumber( String(coin?.data.priceUsd), 2)}
-                        </span>
-                        <span className='coin__price-change'>
-                            <PercentModify value={formatNumber(coin?.data.changePercent24Hr || '0',2)}/>
-                        </span>
-                    </div>
-                    <div className='coin__info'>
-                        <div className='coin__info-row'>
-                            <span className='coin__info-row-key'>Market cap</span>
-                            <span className='coin__info-row-value'>${formatLargeNumber( String(coin?.data.marketCapUsd))}</span>
-                        </div>
-                        <div className='coin__info-row'>
-                            <span className='coin__info-row-key'>Total supply</span>
-                            <span className='coin__info-row-value'>${formatLargeNumber( String(coin?.data.supply))} {coin?.data.symbol}</span>
-                        </div>
-                        <div className='coin__info-row'>
-                            <span className='coin__info-row-key'>Max. supply</span>
-                            <span className='coin__info-row-value'>${formatLargeNumber( String(coin?.data.maxSupply))} {coin?.data.symbol}</span>
-                        </div>
-                    </div>
+                    <CoinInfo 
+                          price = {coin?.data.priceUsd}
+                          changePercent24Hr = {coin?.data.changePercent24Hr}
+                          marketCapUsd = {coin?.data.marketCapUsd}
+                          supply = {coin?.data.supply}
+                          maxSupply = {coin?.data.maxSupply}
+                          symbol = {coin?.data.symbol}
+                    />
                 </div>
                 <div className='chart-container'>
                     <div className='chart-dashboard'>
                         
-                        <button 
-                            className={`chart-dashboard__btn ${timeType === 'h1' ? 'active' : ''}`} 
+                        <StyledButton 
+                            isActive={timeType === 'h1'}
                             onClick={set1HourChartSetting}
                         >
-                            1 Hour
-                        </button>
+                           <span className='uppercase-text'>1 Hour</span> 
+                        </StyledButton>
 
-                        <button 
-                            className={`chart-dashboard__btn ${timeType === 'h12' ? 'active' : ''}`} 
+                        <StyledButton 
+                            isActive={timeType === 'h12'} 
                             onClick={set12HoursChartSetting}
                         >
-                            12 Hours
-                        </button>
+                           <span className='uppercase-text'>12 Hours</span> 
+                        </StyledButton>
 
-                        <button 
-                            className={`chart-dashboard__btn ${timeType === 'd1' ? 'active' : ''}`} 
+                        <StyledButton 
+                            isActive={timeType === 'd1'} 
                             onClick={set1DayChartSetting}
                         >
-                            1 Day
-                        </button>
+                            <span className='uppercase-text'>1 Day</span>
+                        </StyledButton>
                     </div>
                     <div className='chart'>
                         <CoinChart 
@@ -187,6 +166,23 @@ const CoinPage = () => {
                     </div>
                 </div>
             </section>
+
+
+            <BuyCoinModal 
+                isModalOpen={isModalOpen}
+                toggleModal={toggleModal}
+                modalId={2}
+                coin={{
+                    key: coin?.data.id || '',
+                    name: coin?.data.name || '',
+                    symbol: coin?.data.symbol || '',
+                    priceUsd: coin?.data.priceUsd || '',
+                    rank: coin?.data.rank || '',
+                    logo:"https://assets.coincap.io/assets/icons/"+coin?.data.symbol.toLowerCase()+"@2x.png",
+                    marketCapUsd: coin?.data.marketCapUsd || '',
+                    changePercent24Hr: coin?.data.changePercent24Hr || '',
+                }}
+            />
         </div>
     );
 };

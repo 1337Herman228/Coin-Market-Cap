@@ -1,0 +1,21 @@
+
+
+._income{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 10px;
+    font-weight: 600;
+
+    &-price{
+        color: currentColor;
+    }
+
+    &-profit{
+        color: var(--up-color);
+    }
+
+    &-decline{
+        color: var(--down-color);
+    }
+}

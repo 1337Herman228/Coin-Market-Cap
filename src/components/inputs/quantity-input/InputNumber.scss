@@ -1,0 +1,42 @@
+@use '../../../styles/mixins' as *;
+@use '../../../styles/media' as *;
+@use '../../../styles/variables' as *;
+
+.input-number{
+
+
+    .dashboard-btn{
+        @include reset-button;
+        cursor: pointer;
+        height: 25px;
+        aspect-ratio: 1;
+        font-size: 17px;
+
+        @include hover{
+            color: var(--color-primary-blue);
+        }
+
+        &[disabled]{
+            cursor: not-allowed;
+            color: var(--text-color-sub);
+        }
+    }
+
+    .input{
+        outline: none;
+        border: 1px solid;
+        padding-left: 5px;
+        border-radius: 5px;
+        max-width: 50px;
+
+        @include hover{
+            border-color: var(--color-primary-blue);
+        }
+
+        &[type="number"]::-webkit-inner-spin-button,
+        &[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
