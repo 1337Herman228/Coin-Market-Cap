@@ -1,3 +1,5 @@
+"use client";
+
 import "./StyledButton.scss";
 
 interface StyledButtonProps {

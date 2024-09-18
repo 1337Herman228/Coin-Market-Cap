@@ -1,3 +1,5 @@
+"use client";
+
 import "./FavouriteBtn.scss";
 
 import React from "react";

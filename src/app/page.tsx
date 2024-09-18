@@ -1,7 +1,7 @@
+"use client";
+
 import MainPage from "@/pages/main-page/MainPage";
 
 export default function Home() {
-  return (
-    <MainPage />
-  );
+    return <MainPage />;
 }

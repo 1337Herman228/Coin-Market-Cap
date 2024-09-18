@@ -5,7 +5,6 @@ import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
 import { Button, Input, Space } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
-import Highlighter from "react-highlight-words";
 
 import { DataType } from "@/lib/interfaces";
 import useFormatNumber from "@/lib/hooks/useFormatNumber";
@@ -129,17 +128,7 @@ const TableColumns = () => {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
-        render: (text) =>
-            searchedColumn === dataIndex ? (
-                <Highlighter
-                    highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-                    searchWords={[searchText]}
-                    autoEscape
-                    textToHighlight={text ? text.toString() : ""}
-                />
-            ) : (
-                text
-            ),
+        render: (text) => text,
     });
 
     const checkFavouriteCoin = (coinId: string) => {

@@ -1,15 +1,13 @@
+"use client";
+
 import {
-    DataType,
-    ICoin,
     ICoinHistory,
     ICoinResponse,
     ICoinsResponse,
-    IGetFavoriteCoinsParams,
     ILocalStorageCoinKey,
 } from "@/lib/interfaces";
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction, SerializedError } from "@reduxjs/toolkit";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface State {
     coins: ICoinsResponse;

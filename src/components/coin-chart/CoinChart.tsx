@@ -1,3 +1,5 @@
+"use client";
+
 import { LineChart } from "@mui/x-charts/LineChart";
 import { memo } from "react";
 import { useMediaQuery } from "react-responsive";

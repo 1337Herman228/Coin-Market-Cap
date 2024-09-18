@@ -1,3 +1,5 @@
+"use client";
+
 export interface ICoinsResponse {
     data: ICoin[];
     timestamp: number;
@@ -7,7 +9,6 @@ export interface ICoinResponse {
     data: ICoin;
     timestamp: number;
 }
-
 
 export interface IGetCoinsParams {
     limit?: number;
@@ -20,8 +21,8 @@ export interface IGetFavoriteCoinsParams {
 }
 
 export interface ICoinHistory {
-    data: ICoinHistoryPoint[],
-    timestamp: number,
+    data: ICoinHistoryPoint[];
+    timestamp: number;
 }
 
 export interface ICoinHistoryParams {
@@ -32,12 +33,11 @@ export interface ICoinHistoryParams {
 }
 
 export interface ICoinHistoryPoint {
-    priceUsd: string, //"6379.3997635993342453"
-    time: number, //1530403200000
+    priceUsd: string; //"6379.3997635993342453"
+    time: number; //1530403200000
 }
 
 export interface ICoin {
-    
     id: string; //"bitcoin"
     rank: string; //"1"
     symbol: string; //"BTC"
@@ -52,11 +52,10 @@ export interface ICoin {
 }
 
 export interface IGetCoinByIdQueryParams {
-    id: string,
+    id: string;
 }
 
 export interface DataType {
-
     key: string;
     rank: string;
     symbol: string; //"BTC"
@@ -65,13 +64,12 @@ export interface DataType {
     priceUsd: string;
     marketCapUsd: string;
     changePercent24Hr: string;
+}
 
-  }
-
-  export  interface ILocalStorageCoinKey {
-    id: string
-    coinId: string
-    priceUsd: number
-    quantity: number
-    dateWhenAdded: number
+export interface ILocalStorageCoinKey {
+    id: string;
+    coinId: string;
+    priceUsd: number;
+    quantity: number;
+    dateWhenAdded: number;
 }

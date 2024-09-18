@@ -1,3 +1,5 @@
+"use client";
+
 import "./PortfolioProfit.scss";
 import useCalculateProfit from "@/lib/hooks/useCalculateProfit";
 import useFormatNumber from "@/lib/hooks/useFormatNumber";

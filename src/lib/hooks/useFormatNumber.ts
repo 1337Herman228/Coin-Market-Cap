@@ -1,3 +1,5 @@
+"use client";
+
 const useFormatNumber = () => {
     const formatNumber = (value: string | number, toFixed: number) => {
         try {

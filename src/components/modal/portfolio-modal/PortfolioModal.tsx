@@ -1,3 +1,5 @@
+"use client";
+
 import "./PortfolioModal.scss";
 import useLocalStorage from "@/lib/hooks/useLocalStorage";
 import StyledModal from "../styled-modal/StyledModal";
