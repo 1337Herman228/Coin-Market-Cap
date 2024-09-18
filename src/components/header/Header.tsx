@@ -114,6 +114,7 @@ const Header = () => {
                     favouriteCoins={favouriteCoins}
                 />
                 <StyledButton
+                    dataTestId="portfolio-btn"
                     isActive={isModalOpen[1]}
                     onClick={() => toggleModal(1, true)}
                 >

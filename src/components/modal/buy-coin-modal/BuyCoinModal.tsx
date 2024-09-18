@@ -67,7 +67,7 @@ const BuyCoinModal = ({
                 centered={true}
                 modalId={modalId}
             >
-                <div className="buy-coin-modal">
+                <div data-testId="buy-coin-modal" className="buy-coin-modal">
                     <div className="title">
                         <img
                             className="title__img"
@@ -110,6 +110,7 @@ const BuyCoinModal = ({
                         </div>
                         <div className="footer__button">
                             <button
+                                data-testId="buy-coin-modal-button"
                                 className="footer__button-buy"
                                 onClick={() => buyCoin(quantity)}
                             >

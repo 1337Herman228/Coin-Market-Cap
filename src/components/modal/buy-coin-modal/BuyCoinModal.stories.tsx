@@ -13,6 +13,7 @@ type Story = StoryObj<typeof BuyCoinModal>;
 
 const Wrapper = () => {
     const [isModalOpen, setIsModalOpen] = useState([false]);
+
     const toggleModal = (idx: number, target: boolean) => {
         setIsModalOpen((p) => {
             p[idx] = target;

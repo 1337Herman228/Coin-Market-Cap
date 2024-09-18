@@ -67,7 +67,7 @@ const PortfolioModal = ({
                 centered={true}
                 modalId={modalId}
             >
-                <div className="_portfolio-modal">
+                <div data-testId="portfolio-modal" className="_portfolio-modal">
                     <h1 className="title">Your coins</h1>
 
                     <div className="income">
@@ -169,6 +169,7 @@ const PortfolioModal = ({
 
                                         <div className="coin-item__cell coin-item--delete">
                                             <button
+                                                data-testId="delete-coin-btn"
                                                 key={coin?.id + "delete"}
                                                 onClick={() => deleteCoin(coin)}
                                             >
